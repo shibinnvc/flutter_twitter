@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "431209683654",
+    "project_id": "twitter-clone-bb9de",
+    "storage_bucket": "twitter-clone-bb9de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431209683654:android:cbac1cb3826e4b1575d5c7",
+        "android_client_info": {
+          "package_name": "com.shibin.twitter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcOSHjJ83BI-kopCIMLD7ZhH3CxAIpMzI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
