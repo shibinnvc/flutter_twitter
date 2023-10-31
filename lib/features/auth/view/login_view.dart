@@ -53,7 +53,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
-                      // textfield 1
                       AuthField(
                         controller: emailController,
                         hintText: 'Email',

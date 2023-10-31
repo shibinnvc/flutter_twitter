@@ -15,6 +15,14 @@ String getNameFromEmail(String email) {
   return email.split('@')[0];
 }
 
+List<String> getNameArray(String input) {
+  List<String> result = [];
+  for (int i = 0; i < input.length; i++) {
+    result.add(input.substring(0, i + 1));
+  }
+  return result;
+}
+
 Future<List<File>> pickImages() async {
   List<File> images = [];
   final ImagePicker picker = ImagePicker();

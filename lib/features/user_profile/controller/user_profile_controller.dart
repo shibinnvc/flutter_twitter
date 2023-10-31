@@ -26,10 +26,10 @@ final getUserTweetsProvider = FutureProvider.family((ref, String uid) async {
   return userProfileController.getUserTweets(uid);
 });
 
-final getLatestUserProfileDataProvider = StreamProvider((ref) {
-  final userAPI = ref.watch(userAPIProvider);
-  return userAPI.getLatestUserProfileData();
-});
+// final getLatestUserProfileDataProvider = StreamProvider((ref) {
+//   final userAPI = ref.watch(userAPIProvider);
+//   return userAPI.getLatestUserProfileData();
+// });
 
 class UserProfileController extends StateNotifier<bool> {
   final TweetAPI _tweetAPI;
@@ -73,12 +73,12 @@ class UserProfileController extends StateNotifier<bool> {
       );
     }
 
-    final res = await _userAPI.updateUserData(userModel);
-    state = false;
-    res.fold(
-      (l) => showSnackBar(context, l.message),
-      (r) => Navigator.pop(context),
-    );
+    // final res = await _userAPI.updateUserData(userModel);
+    // state = false;
+    // res.fold(
+    //   (l) => showSnackBar(context, l.message),
+    //   (r) => Navigator.pop(context),
+    // );
   }
 
   void followUser({
@@ -100,17 +100,17 @@ class UserProfileController extends StateNotifier<bool> {
       following: currentUser.following,
     );
 
-    final res = await _userAPI.followUser(user);
-    res.fold((l) => showSnackBar(context, l.message), (r) async {
-      final res2 = await _userAPI.addToFollowing(currentUser);
-      res2.fold((l) => showSnackBar(context, l.message), (r) {
-        _notificationController.createNotification(
-          text: '${currentUser.name} followed you!',
-          postId: '',
-          notificationType: NotificationType.follow,
-          uid: user.uid,
-        );
-      });
-    });
+    // final res = await _userAPI.followUser(user);
+    // res.fold((l) => showSnackBar(context, l.message), (r) async {
+    //   final res2 = await _userAPI.addToFollowing(currentUser);
+    //   res2.fold((l) => showSnackBar(context, l.message), (r) {
+    //     _notificationController.createNotification(
+    //       text: '${currentUser.name} followed you!',
+    //       postId: '',
+    //       notificationType: NotificationType.follow,
+    //       uid: user.uid,
+    //     );
+    //   });
+    // });
   }
 }

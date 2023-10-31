@@ -1,4 +1,3 @@
-import 'package:appwrite/models.dart' as model;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +18,8 @@ final authControllerProvider =
 });
 
 final currentUserDetailsProvider = FutureProvider((ref) {
-  final currentUserId = ref.watch(currentUserAccountProvider).value!.$id;
+  final currentUserId = ref.watch(currentUserAccountProvider).value!.uid;
+  // print('user id $currentUserId');
   final userDetails = ref.watch(userDetailsProvider(currentUserId));
   return userDetails.value;
 });
@@ -45,7 +45,7 @@ class AuthController extends StateNotifier<bool> {
         super(false);
   // state = isLoading
 
-  Future<model.Account?> currentUser() => _authAPI.currentUserAccount();
+  User? currentUser() => _authAPI.currentUserAccount();
 
   void signUp({
     required String email,
@@ -64,11 +64,12 @@ class AuthController extends StateNotifier<bool> {
         UserModel userModel = UserModel(
           email: email,
           name: getNameFromEmail(email),
+          nameArray: getNameArray(getNameFromEmail(email)),
           followers: const [],
           following: const [],
           profilePic: '',
           bannerPic: '',
-          uid: r.$id,
+          uid: r.user?.uid ?? '',
           bio: '',
           isTwitterBlue: false,
         );
@@ -101,8 +102,23 @@ class AuthController extends StateNotifier<bool> {
   }
 
   Future<UserModel> getUserData(String uid) async {
+    //here we want to change later
     final document = await _userAPI.getUserData(uid);
-    final updatedUser = UserModel.fromMap(document.data);
+    // print('here is the data ${document.data()}');
+    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    final updatedUser = UserModel.fromMap(data);
+    // print('data is here $updatedUser');
+    // // final updatedUser = UserModel(
+    // //     email: 'shibin@gmailaaa.com',
+    // //     name: 'Shibin',
+    // //     nameArray: [],
+    // //     followers: ['ejas', 'javi'],
+    // //     following: ['rashi'],
+    // //     profilePic: '',
+    // //     bannerPic: '',
+    // //     uid: uid,
+    // //     bio: '',
+    // //     isTwitterBlue: true);
     return updatedUser;
   }
 

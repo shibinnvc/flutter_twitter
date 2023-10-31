@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:flutter_twitter/constants/appwrite_constants.dart';
@@ -15,7 +16,7 @@ final tweetAPIProvider = Provider((ref) {
 });
 
 abstract class ITweetAPI {
-  FutureEither<Document> shareTweet(Tweet tweet);
+  FutureEitherVoid shareTweet(Tweet tweet);
   Future<List<Document>> getTweets();
   Stream<RealtimeMessage> getLatestTweet();
   FutureEither<Document> likeTweet(Tweet tweet);
@@ -32,16 +33,18 @@ class TweetAPI implements ITweetAPI {
   TweetAPI({required Databases db, required Realtime realtime})
       : _db = db,
         _realtime = realtime;
-
+  final _dbe = FirebaseFirestore.instance.collection('tweets');
   @override
-  FutureEither<Document> shareTweet(Tweet tweet) async {
+  FutureEitherVoid shareTweet(Tweet tweet) async {
     try {
-      final document = await _db.createDocument(
-        databaseId: AppwriteConstants.databaseId,
-        collectionId: AppwriteConstants.tweetsCollection,
-        documentId: ID.unique(),
-        data: tweet.toMap(),
-      );
+      // final document = _dbe.doc(tweet.uid).set(tweet.toMap());
+      final document = await _dbe.doc().set(tweet.toMap());
+      // await _db.createDocument(
+      //   databaseId: AppwriteConstants.databaseId,
+      //   collectionId: AppwriteConstants.tweetsCollection,
+      //   documentId: ID.unique(),
+      //   data: tweet.toMap(),
+      // );
       return right(document);
     } on AppwriteException catch (e, st) {
       return left(
@@ -61,7 +64,7 @@ class TweetAPI implements ITweetAPI {
       databaseId: AppwriteConstants.databaseId,
       collectionId: AppwriteConstants.tweetsCollection,
       queries: [
-        Query.orderDesc('tweetedAt'),
+        // Query.orderDesc('tweetedAt'),
       ],
     );
     return documents.documents;
@@ -128,7 +131,7 @@ class TweetAPI implements ITweetAPI {
       databaseId: AppwriteConstants.databaseId,
       collectionId: AppwriteConstants.tweetsCollection,
       queries: [
-        Query.equal('repliedTo', tweet.id),
+        // Query.equal('repliedTo', tweet.id),
       ],
     );
     return document.documents;
@@ -149,7 +152,7 @@ class TweetAPI implements ITweetAPI {
       databaseId: AppwriteConstants.databaseId,
       collectionId: AppwriteConstants.tweetsCollection,
       queries: [
-        Query.equal('uid', uid),
+        //  Query.equal('uid', uid),
       ],
     );
     return documents.documents;
@@ -161,7 +164,7 @@ class TweetAPI implements ITweetAPI {
       databaseId: AppwriteConstants.databaseId,
       collectionId: AppwriteConstants.tweetsCollection,
       queries: [
-        Query.search('hashtags', hashtag),
+        // Query.search('hashtags', hashtag),
       ],
     );
     return documents.documents;

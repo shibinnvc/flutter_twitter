@@ -208,7 +208,7 @@ class TweetController extends StateNotifier<bool> {
       if (repliedToUserId.isNotEmpty) {
         _notificationController.createNotification(
           text: '${user.name} replied to your tweet!',
-          postId: r.$id,
+          postId: user.uid,
           notificationType: NotificationType.reply,
           uid: repliedToUserId,
         );
@@ -247,7 +247,8 @@ class TweetController extends StateNotifier<bool> {
       if (repliedToUserId.isNotEmpty) {
         _notificationController.createNotification(
           text: '${user.name} replied to your tweet!',
-          postId: r.$id,
+          //postId: r.id,
+          postId: user.uid,
           notificationType: NotificationType.reply,
           uid: repliedToUserId,
         );
