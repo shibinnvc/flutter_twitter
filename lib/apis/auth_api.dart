@@ -40,7 +40,7 @@ class AuthAPI implements IAuthAPI {
         password: password,
       );
       return right(account);
-    } on AppwriteException catch (e, stackTrace) {
+    } on FirebaseAuthException catch (e, stackTrace) {
       return left(
         Failure(e.message ?? 'Some unexpected error occurred', stackTrace),
       );
@@ -62,7 +62,7 @@ class AuthAPI implements IAuthAPI {
         password: password,
       );
       return right(session);
-    } on AppwriteException catch (e, stackTrace) {
+    } on FirebaseAuthException catch (e, stackTrace) {
       return left(
         Failure(e.message ?? 'Some unexpected error occurred', stackTrace),
       );
@@ -78,7 +78,7 @@ class AuthAPI implements IAuthAPI {
     try {
       await _auth.signOut();
       return right(null);
-    } on AppwriteException catch (e, stackTrace) {
+    } on FirebaseAuthException catch (e, stackTrace) {
       return left(
         Failure(e.message ?? 'Some unexpected error occurred', stackTrace),
       );
