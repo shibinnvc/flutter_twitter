@@ -40,7 +40,7 @@ class UserAPI implements IUserAPI {
     try {
       await _db.collection('users').doc(userModel.uid).set(userModel.toMap());
       return right(null);
-    } on AppwriteException catch (e, st) {
+    } on FirebaseException catch (e, st) {
       return left(
         Failure(
           e.message ?? 'Some unexpected error occurred',
